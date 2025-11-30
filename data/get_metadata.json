@@ -1,0 +1,16 @@
+[
+    {
+        "process": "my::metatest::Основной::Дополнительный",
+        "processDescription": "Еще один процесс",
+        "channel": "rec1",
+        "channelDescription": "Получатель №1",
+        "access": "READ_ONLY"
+    },
+    {
+        "process": "my::metatest::Основной::Дополнительный",
+        "processDescription": "Еще один процесс",
+        "channel": "send1",
+        "channelDescription": "Источник №1",
+        "access": "WRITE_ONLY"
+    }
+]

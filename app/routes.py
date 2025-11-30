@@ -58,6 +58,30 @@ def setup_token():
         }), 200
 
 
+@bp.route('/setup/metadata_channels', methods=['POST'])
+def setup_metadata_channels():
+    """Загрузить metadata каналы для приложения"""
+    try:
+        token = auth_bearer(request)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 403
+
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No JSON data provided"}), 400
+    
+    try:
+        storage.set_metadata_channels(token, data)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    return jsonify({
+        "status": "ok", 
+        "response": "setup metadata channels success",
+        "key": token,
+        "value": data,
+        }), 200
+
 @bp.route('/setup/runtime_channels', methods=['POST'])
 def setup_runtime_channels():
     """Загрузить runtime каналы для приложения"""
@@ -91,6 +115,8 @@ def get_token():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
     
+    print(f"POST /auth/oidc/token: client_id: {client_id}")
+
     try:
         token = storage.get_token((client_id, client_secret))
     except ValueError as e:
@@ -103,9 +129,31 @@ def get_token():
         }), 200
 
 
+@bp.route('/applications/<application_name>/sys/esb/metadata/channels', methods=['GET'])
+def get_metadata_channels(application_name: str):
+    """Получить runtime каналы"""
+
+    print(f"GET metadata channels: application_name: {application_name}")
+
+    try:
+        token = auth_bearer(request)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 403
+    
+    try:
+        metadata_channels = storage.get_metadata_channels(token)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 401
+    
+    return jsonify(metadata_channels), 200
+
+
 @bp.route('/applications/<application_name>/sys/esb/runtime/channels', methods=['GET'])
 def get_runtime_channels(application_name: str):
     """Получить runtime каналы"""
+
+    print(f"GET runtime channels: application_name: {application_name}")
+
     try:
         token = auth_bearer(request)
     except ValueError as e:

@@ -22,6 +22,22 @@ def load_token(client_id: str, client_secret: str, base_url: str = "http://local
     print(f"Данные токена пользователя '{client_id}' успешно загружены")
     return response.json()
 
+def load_metadata_channels(base_url: str = "http://localhost:5000", token: str = None):
+    """Загрузить metadata каналы из get_metadata_channels.json"""
+    data_dir = Path(__file__).parent
+    metadata_file = data_dir / "get_metadata.json"
+    metadata = json.loads(metadata_file.read_text(encoding="utf-8"))
+
+    response = requests.post(
+        f"{base_url}/setup/metadata_channels",
+        json=metadata,
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    response.raise_for_status()
+
+    print(f"Metadata каналы для токена успешно загружены")
+    return response.json()
+
 
 def load_runtime_channels(base_url: str = "http://localhost:5000", token: str = None
 ):
@@ -59,6 +75,7 @@ if __name__ == "__main__":
 
     try:
         token_data = load_token(base_url=base_url, client_id=client_id, client_secret=client_secret)
+        metadata_channels_data = load_metadata_channels(base_url=base_url, token=token_data["value"]["id_token"])
         runtime_channels_data = load_runtime_channels(base_url=base_url, token=token_data["value"]["id_token"])
     except Exception as e:
         print(f"Ошибка загрузки данных: {e}")
