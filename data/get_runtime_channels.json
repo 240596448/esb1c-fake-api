@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "process": "my::metatest::Основной::Дополнительный",
+      "channel": "send1",
+      "destination": "PUBLIC.MDE5YTU1YTZmMGNhN2U3NThkMmJhMjcwMjc0YmY2YjQ=.b4f8608dfd9a45a085299da51c2dbff1IntegrationProcess.24b75cc925724bf8a4e7a02c50e212ec.019a55c3400e7635a20cdfb6ed3cec70"
+    },
+    {
+      "process": "my::metatest::Основной::Дополнительный",
+      "channel": "rec1",
+      "destination": "PUBLIC.MDE5YTU1YTZmMGNhN2U3NThkMmJhMjcwMjc0YmY2YjQ=.b4f8608dfd9a45a085299da51c2dbff1IntegrationProcess.a7e943e55b5449c2a67eef8e53789314.019a55c3400e7635a20cdfb6ed3cec70"
+    }
+  ],
+  "port": 6698
+}

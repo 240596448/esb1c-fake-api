@@ -1,6 +1,5 @@
 .vscode/launch.json
 .env
 .venv
-data
 __pycache__
 *.pyc
