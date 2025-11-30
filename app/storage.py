@@ -18,13 +18,12 @@ class DataStorage:
         
         self._clients[key] = {**data, "client_id": client_id, "client_secret": client_secret}
     
-    def set_runtime_channels(self, data: dict):
+    def set_runtime_channels(self, token: str, data: dict):
         """Сохранить runtime каналы для приложения"""
-        if application_name not in self._storage:
-            self._storage[application_name] = {}
+        if token not in self._tokens:
+            self._tokens[token] = {}
         
-        key = self._storage.get("application_name")
-        self._storage[application_name]["runtime_channels"] = runtime_channels
+        self._tokens[token] = data
     
     def get_token(self, auth_data: tuple[str, str]) -> Optional[dict]:
         """Получить данные токена"""
@@ -36,16 +35,12 @@ class DataStorage:
             raise ValueError(f"Invalid client secret for client {client_id}")
         return data.get("id_token")
     
-    def get_runtime_channels(self, application_name: str) -> Optional[dict]:
+    def get_runtime_channels(self, token: str) -> Optional[dict]:
         """Получить runtime каналы"""
-        if application_name not in self._storage:
+        if token not in self._tokens:
             return None
-        return self._storage[application_name].get("runtime_channels")
+        return self._tokens[token]
     
-    def has_application(self, application_name: str) -> bool:
-        """Проверить наличие данных для приложения"""
-        return application_name in self._storage
-
 
 storage = DataStorage()
 
