@@ -37,21 +37,29 @@ def load_runtime_channels(base_url: str = "http://localhost:5000", token: str = 
     )
     response.raise_for_status()
 
-    print(f"Runtime каналы для токена '{token}' успешно загружены")
+    print(f"Runtime каналы для токена успешно загружены")
     return response.json()
 
 
 if __name__ == "__main__":
     base_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:5000"
-    client_data = json.loads(Path(__file__).parent / "client.json")
+    client_file = Path(__file__).parent / "client.json"
+    if not client_file.exists():
+        print(f"Файл {client_file} не найден")
+        sys.exit(1)
+
+    try:
+        client_data = json.loads(client_file.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"Ошибка загрузки данных из файла {client_file}: {e}")
+        sys.exit(1)
+
     client_id = client_data["client_id"]
     client_secret = client_data["client_secret"]
 
     try:
         token_data = load_token(base_url=base_url, client_id=client_id, client_secret=client_secret)
-        print(f"Данные токена пользователя '{client_id}' успешно загружены")
-    
         runtime_channels_data = load_runtime_channels(base_url=base_url, token=token_data["value"]["id_token"])
-        print(f"Runtime каналы успешно загружены")
     except Exception as e:
         print(f"Ошибка загрузки данных: {e}")
+        sys.exit(1)

@@ -83,7 +83,7 @@ def setup_runtime_channels():
         }), 200
 
 
-@bp.route('/auth/oidc/token', methods=['GET'])
+@bp.route('/auth/oidc/token', methods=['POST'])
 def get_token():
     """Получить токен (имитация POST запроса библиотеки)"""
     try:
