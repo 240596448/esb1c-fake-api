@@ -7,26 +7,28 @@ class DataStorage:
     
     def __init__(self):
         self._storage: Dict[str, Dict[str, Any]] = {}
+        self._client_id_index: Dict[str, str] = {}  # client_id -> application_name
     
-    def set_data(self, application_name: str, token_data: dict, metadata: list, runtime_channels: dict):
-        """Сохранить данные для приложения"""
-        self._storage[application_name] = {
-            "token": token_data,
-            "metadata": metadata,
-            "runtime_channels": runtime_channels
-        }
+    def set_token(self, application_name: str, data: dict):
+        """Сохранить данные токена для приложения"""
+        if application_name not in self._storage:
+            self._storage[application_name] = {}
+        
+        key = data.get("client_id")
+        self._storage[application_name][key] = data
+    
+    def set_runtime_channels(self, application_name: str, runtime_channels: dict):
+        """Сохранить runtime каналы для приложения"""
+        if application_name not in self._storage:
+            self._storage[application_name] = {}
+        
+        self._storage[application_name]["runtime_channels"] = runtime_channels
     
     def get_token(self, application_name: str) -> Optional[dict]:
         """Получить данные токена"""
         if application_name not in self._storage:
             return None
         return self._storage[application_name].get("token")
-    
-    def get_metadata(self, application_name: str) -> Optional[list]:
-        """Получить метаданные каналов"""
-        if application_name not in self._storage:
-            return None
-        return self._storage[application_name].get("metadata")
     
     def get_runtime_channels(self, application_name: str) -> Optional[dict]:
         """Получить runtime каналы"""

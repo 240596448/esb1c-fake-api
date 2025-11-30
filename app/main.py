@@ -1,6 +1,6 @@
 """Главный файл Flask приложения"""
 from flask import Flask
-from app.routes import bp
+from routes import bp
 
 app = Flask(__name__)
 app.register_blueprint(bp)
