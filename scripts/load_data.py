@@ -30,7 +30,7 @@ def load_metadata_channels(base_url: str, application_name: str, token: str):
     response = requests.post(
         f"{base_url}/setup/metadata_channels",
         json=metadata,
-        headers={"Authorization": f"Bearer {token}", "application_name": application_name},
+        headers={"Authorization": f"Bearer {token}", "x-fake-application-name": application_name},
     )
     response.raise_for_status()
 
@@ -46,7 +46,7 @@ def load_runtime_channels(base_url: str, application_name: str, token: str):
     response = requests.post(
         f"{base_url}/setup/runtime_channels",
         json=runtime_channels,
-        headers={"Authorization": f"Bearer {token}", "application_name": application_name},
+        headers={"Authorization": f"Bearer {token}", "x-fake-application-name": application_name},
     )
     response.raise_for_status()
 

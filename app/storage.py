@@ -14,6 +14,7 @@ class DataStorage:
         """Сохранить данные токена по клиенту"""
         client_id, client_secret = auth_data
         key = client_id
+        print(f"key: {key}")
         if key not in self._clients:
             self._clients[key] = {}
         
@@ -22,6 +23,7 @@ class DataStorage:
     def set_metadata_channels(self, application_name: str, token: str, data: dict):
         """Сохранить metadata каналы по токену"""
         key = f"{application_name}:{token}"
+        print(f"key: {key}")
         if key not in self._tokens:
             self._tokens[key] = {}
         
@@ -30,6 +32,7 @@ class DataStorage:
     def set_runtime_channels(self, application_name: str, token: str, data: dict):
         """Сохранить runtime каналы по токену"""
         key = f"{application_name}:{token}"
+        print(f"key: {key}")
         if key not in self._tokens:
             self._tokens[key] = {}
         
@@ -48,6 +51,7 @@ class DataStorage:
     def get_metadata_channels(self, application_name: str, token: str) -> Optional[dict]:
         """Получить metadata каналы по токену"""
         key = f"{application_name}:{token}"
+        print(f"key: {key}")
         if key not in self._tokens:
             return None
         return self._tokens[key].get("metadata_channels")
@@ -55,6 +59,7 @@ class DataStorage:
     def get_runtime_channels(self, application_name: str, token: str) -> Optional[dict]:
         """Получить runtime каналы по токену"""
         key = f"{application_name}:{token}"
+        print(f"key: {key}")
         if key not in self._tokens:
             return None
         return self._tokens[key].get("runtime_channels")

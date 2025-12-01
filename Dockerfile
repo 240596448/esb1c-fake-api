@@ -14,7 +14,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копирование кода приложения (копируем содержимое app/ в рабочую директорию)
-COPY app/ ./
+COPY app/*.py ./
 
 # Установка переменных окружения
 ENV PYTHONUNBUFFERED=1

@@ -66,7 +66,7 @@ def setup_metadata_channels():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
 
-    application_name = request.headers.get('application_name')
+    application_name = request.headers.get("x-fake-application-name")
     data = request.get_json()
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400
@@ -91,7 +91,7 @@ def setup_runtime_channels():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
 
-    application_name = request.headers.get('application_name')
+    application_name = request.headers.get("x-fake-application-name")
     data = request.get_json()
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400

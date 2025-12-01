@@ -1,7 +1,11 @@
 #!/bin/bash
 
+# docker stop esb1c-fake-api 
+# docker rm esb1c-fake-api 
+# docker rmi esb1c-fake-api 
+
 echo "Building Docker image..."
-docker build -t esb1c-fake-api . --no-cache
+docker build -t esb1c-fake-api .
 
 echo "Running Docker container..."
 docker run -d --name esb1c-fake-api -p 9090:5000 esb1c-fake-api
