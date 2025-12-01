@@ -19,6 +19,7 @@ class DataStorage:
             self._clients[key] = {}
         
         self._clients[key] = {**data, "client_id": client_id, "client_secret": client_secret}
+        return key
     
     def set_metadata_channels(self, application_name: str, token: str, data: dict):
         """Сохранить metadata каналы по токену"""
@@ -28,6 +29,7 @@ class DataStorage:
             self._tokens[key] = {}
         
         self._tokens[key]["metadata_channels"] = data
+        return key
     
     def set_runtime_channels(self, application_name: str, token: str, data: dict):
         """Сохранить runtime каналы по токену"""
@@ -37,6 +39,7 @@ class DataStorage:
             self._tokens[key] = {}
         
         self._tokens[key]["runtime_channels"] = data
+        return key
     
     def get_token(self, auth_data: tuple[str, str]) -> Optional[dict]:
         """Получить данные токена по клиенту"""

@@ -46,14 +46,14 @@ def setup_token():
         return jsonify({"error": "No JSON data provided"}), 400
     
     try:
-        storage.set_token((client_id, client_secret), data)
+        key = storage.set_token((client_id, client_secret), data)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     
     return jsonify({
         "status": "ok", 
         "response": "setup token success",
-        "key": client_id,
+        "key": key,
         "value": data,
         }), 200
 
@@ -72,14 +72,14 @@ def setup_metadata_channels():
         return jsonify({"error": "No JSON data provided"}), 400
     
     try:
-        storage.set_metadata_channels(application_name, token, data)
+        key = storage.set_metadata_channels(application_name, token, data)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
     return jsonify({
         "status": "ok", 
         "response": "setup metadata channels success",
-        "key": token,
+        "key": key,
         "value": data,
         }), 200
 
@@ -97,14 +97,14 @@ def setup_runtime_channels():
         return jsonify({"error": "No JSON data provided"}), 400
     
     try:
-        storage.set_runtime_channels(application_name, token, data)
+        key = storage.set_runtime_channels(application_name, token, data)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     
     return jsonify({
         "status": "ok", 
         "response": "setup runtime channels success",
-        "key": token,
+        "key": key,
         "value": data,
         }), 200
 
