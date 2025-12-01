@@ -5,10 +5,10 @@ import requests
 import sys
 from pathlib import Path
 
+data_dir = Path(__file__).parent.parent / "data"
 
 def load_token(base_url: str, application_name: str, client_id: str, client_secret: str):
     """Загрузить данные токена из get_token.json"""
-    data_dir = Path(__file__).parent
     token_file = data_dir / "get_token.json"
     token_data = json.loads(token_file.read_text(encoding="utf-8"))
 
@@ -25,7 +25,6 @@ def load_token(base_url: str, application_name: str, client_id: str, client_secr
 
 def load_metadata_channels(base_url: str, application_name: str, token: str):
     """Загрузить metadata каналы из get_metadata_channels.json"""
-    data_dir = Path(__file__).parent
     metadata_file = data_dir / "get_metadata.json"
     metadata = json.loads(metadata_file.read_text(encoding="utf-8"))
 
@@ -42,7 +41,6 @@ def load_metadata_channels(base_url: str, application_name: str, token: str):
 
 def load_runtime_channels(base_url: str, application_name: str, token: str):
     """Загрузить runtime каналы из get_runtime_channels.json"""
-    data_dir = Path(__file__).parent
     runtime_channels_file = data_dir / "get_runtime_channels.json"
     runtime_channels = json.loads(runtime_channels_file.read_text(encoding="utf-8"))
 
@@ -59,7 +57,7 @@ def load_runtime_channels(base_url: str, application_name: str, token: str):
 
 if __name__ == "__main__":
     base_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:5000"
-    client_file = Path(__file__).parent / "client.json"
+    client_file = data_dir / "client.json"
     if not client_file.exists():
         print(f"Файл {client_file} не найден")
         sys.exit(1)
