@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 
-def load_token(client_id: str, client_secret: str, base_url: str = "http://localhost:5000"):
+def load_token(base_url: str, client_id: str, client_secret: str):
     """Загрузить данные токена из get_token.json"""
     data_dir = Path(__file__).parent
     token_file = data_dir / "get_token.json"
@@ -22,7 +22,7 @@ def load_token(client_id: str, client_secret: str, base_url: str = "http://local
     print(f"Данные токена пользователя '{client_id}' успешно загружены")
     return response.json()
 
-def load_metadata_channels(base_url: str = "http://localhost:5000", token: str = None):
+def load_metadata_channels(base_url: str, token: str):
     """Загрузить metadata каналы из get_metadata_channels.json"""
     data_dir = Path(__file__).parent
     metadata_file = data_dir / "get_metadata.json"
@@ -39,8 +39,7 @@ def load_metadata_channels(base_url: str = "http://localhost:5000", token: str =
     return response.json()
 
 
-def load_runtime_channels(base_url: str = "http://localhost:5000", token: str = None
-):
+def load_runtime_channels(base_url: str, token: str):
     """Загрузить runtime каналы из get_runtime_channels.json"""
     data_dir = Path(__file__).parent
     runtime_channels_file = data_dir / "get_runtime_channels.json"
@@ -63,7 +62,6 @@ if __name__ == "__main__":
     if not client_file.exists():
         print(f"Файл {client_file} не найден")
         sys.exit(1)
-
     try:
         client_data = json.loads(client_file.read_text(encoding="utf-8"))
     except Exception as e:

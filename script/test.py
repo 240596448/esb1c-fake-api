@@ -23,3 +23,12 @@ application = Application(
     client_id=client_id,
     client_secret=client_secret,
 )
+
+print(f"ID Token: \n{application.id_token}")
+
+print(f"Channels: \n{application.channels.to_dict()}")
+
+print(f"Sender Channel: \n{application.sender}")
+print(f"Receiver Channel: \n{application.receiver}")
+
+print(f"AMQP URL: \n{application.amqp_url}")
