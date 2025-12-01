@@ -169,3 +169,7 @@ def get_runtime_channels(application_name: str):
     
     return jsonify(runtime_channels), 200
 
+
+@bp.route('/', methods=['GET'])
+def root():
+    return jsonify("1C:ESB Fake API"), 200

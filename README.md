@@ -40,6 +40,10 @@ docker run -d --name esb1c-fake-api -p 9090:5000 esb1c-fake-api
 
 Сервис будет доступен по адресу `http://localhost:9090`
 
+#### Примечание:
+> Для сборки, старта и первичной загрузки данных - воспользуйтесь setup.sh
+
+
 ## Принцип работы
 
 В 1С указываем адрес контейнера как адрес приложения шины 1С в формате
@@ -62,30 +66,23 @@ http://localhost:9090/applications/<application_name>
 ### Подготовка данных
 
 Убедитесь, что в директории `data/` присутствуют следующие файлы:
-- `client.json` - содержит `client_id` и `client_secret`
+- `client.json` - содержит `application_name`, `client_id` и `client_secret`
 - `get_token.json` - данные токена для загрузки
 - `get_metadata.json` - метаданные каналов
 - `get_runtime_channels.json` - runtime каналы
 
 ### Загрузка данных в локальный сервис
 
-Если сервис запущен локально:
+Если сервис запущен локально на порту 5000:
 ```bash
-cd data
-python load_data.py
+python scripts/load_data.py
 ```
 
 ### Загрузка данных в Docker-контейнер
 
-Если сервис запущен в Docker, укажите URL контейнера:
-```bash
-cd data
-python load_data.py http://localhost:5000
-```
-
 Для загрузки в удаленный сервис:
 ```bash
-python load_data.py http://your-server:5000
+python scripts/load_data.py http://your-server:9090
 ```
 
 ### Что делает скрипт загрузки
