@@ -17,7 +17,7 @@ class DataStorage:
         if key not in self._clients:
             self._clients[key] = {}
         
-        self._clients[key] = data
+        self._clients[key] = {**data, "client_id": client_id, "client_secret": client_secret}
     
     def set_metadata_channels(self, application_name: str, token: str, data: dict):
         """Сохранить metadata каналы по токену"""
