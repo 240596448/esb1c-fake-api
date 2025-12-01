@@ -140,7 +140,6 @@ esb1c-fake-api/
 │   ├── get_runtime_channels.json        # Runtime каналы
 │   └── load_data.py                     # Скрипт загрузки данных
 ├── Dockerfile
-├── docker-compose.yml
 ├── requirements.txt
 └── README.md
 ```
