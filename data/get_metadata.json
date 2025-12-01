@@ -1,16 +1,16 @@
 [
     {
-        "process": "my::metatest::Основной::Дополнительный",
-        "processDescription": "Еще один процесс",
+        "process": "RabbitMQ",
+        "processDescription": "Процесс RabbitMQ",
         "channel": "rec1",
-        "channelDescription": "Получатель №1",
+        "channelDescription": "Исходящий канал 1С",
         "access": "READ_ONLY"
     },
     {
-        "process": "my::metatest::Основной::Дополнительный",
-        "processDescription": "Еще один процесс",
+        "process": "RabbitMQ",
+        "processDescription": "Процесс RabbitMQ",
         "channel": "send1",
-        "channelDescription": "Источник №1",
+        "channelDescription": "Входящий канал 1С",
         "access": "WRITE_ONLY"
     }
 ]

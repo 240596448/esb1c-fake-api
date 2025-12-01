@@ -1,0 +1,161 @@
+# ESB 1C Fake API
+
+Фейковый API сервер для имитации http-api 1С:ESB (Enterprise Service Bus).  
+Предназначен для работы с RabbitMQ через сервисы интеграции (amqp 1.0).
+
+## Описание
+
+Сервис предоставляет REST API эндпоинты для:
+- Аутентификации клиентов и получения токенов
+- Настройки метаданных каналов (metadata channels)
+- Настройки runtime каналов (runtime channels)
+- Получения конфигурации каналов
+
+Все данные хранятся в памяти приложения и не сохраняются между перезапусками.
+
+## Установка в Docker
+
+### Предварительные требования
+
+- Docker версии 20.10+
+- Docker Compose версии 2.0+
+
+### Запуск сервиса
+
+1. Клонируйте репозиторий (если необходимо):
+```bash
+git clone <repository-url>
+cd esb1c-fake-api
+```
+
+2. Соберите образ
+```bash
+docker build -t esb1c-fake-api .
+```
+
+3. Запустите контейнер
+```bash
+docker run -d --name esb1c-fake-api -p 9090:5000 esb1c-fake-api
+```
+
+Сервис будет доступен по адресу `http://localhost:9090`
+
+## Принцип работы
+
+В 1С указываем адрес контейнера как адрес приложения шины 1С в формате
+```
+http://localhost:9090/applications/<application_name>
+```
+где <application_name> - произвольное имя (ни на что не влияет)
+
+1С получает предварительно загруженные данные с данного сервера (токен, каналы), формирует строку подключения amqp формата
+`amqp://{id_token}:{id_token}@{host}:{port_amqp}applications/{application_name}`
+
+Далее обращение производится к находящемуся по данному адресу RabbitMQ
+
+## Загрузка/обучение сервиса
+
+Перед использованием сервиса (настройкой каналов в 1С) необходимо загрузить данные из /data (токены, каналы и т.д.).
+Это можно сделать с помощью скрипта `scripts/load_data.py`.
+
+
+### Подготовка данных
+
+Убедитесь, что в директории `data/` присутствуют следующие файлы:
+- `client.json` - содержит `client_id` и `client_secret`
+- `get_token.json` - данные токена для загрузки
+- `get_metadata.json` - метаданные каналов
+- `get_runtime_channels.json` - runtime каналы
+
+### Загрузка данных в локальный сервис
+
+Если сервис запущен локально:
+```bash
+cd data
+python load_data.py
+```
+
+### Загрузка данных в Docker-контейнер
+
+Если сервис запущен в Docker, укажите URL контейнера:
+```bash
+cd data
+python load_data.py http://localhost:5000
+```
+
+Для загрузки в удаленный сервис:
+```bash
+python load_data.py http://your-server:5000
+```
+
+### Что делает скрипт загрузки
+
+Скрипт выполняет следующие действия:
+1. Загружает данные токена через `/setup/token` (используя Basic auth из `client.json`)
+2. Получает `id_token` из ответа
+3. Загружает metadata каналы через `/setup/metadata_channels` (используя Bearer token)
+4. Загружает runtime каналы через `/setup/runtime_channels` (используя Bearer token)
+
+## API Эндпоинты
+
+### POST /setup/token
+Загрузить данные токена для приложения
+- **Auth**: Basic (client_id:client_secret)
+- **Body**: JSON с данными токена
+
+### POST /setup/metadata_channels
+Загрузить metadata каналы
+- **Auth**: Bearer token
+- **Body**: JSON с метаданными каналов
+
+### POST /setup/runtime_channels
+Загрузить runtime каналы
+- **Auth**: Bearer token
+- **Body**: JSON с runtime каналами
+
+### POST /auth/oidc/token
+Получить токен для приложения
+- **Auth**: Basic (client_id:client_secret)
+- **Returns**: JSON с `id_token`, `token_type`, `access_token`
+
+### GET /applications/{application_name}/sys/esb/metadata/channels
+Получить metadata каналы
+- **Auth**: Bearer token
+- **Returns**: JSON с метаданными каналов
+
+### GET /applications/{application_name}/sys/esb/runtime/channels
+Получить runtime каналы
+- **Auth**: Bearer token
+- **Returns**: JSON с runtime каналами
+
+## Структура проекта
+
+```
+esb1c-fake-api/
+├── app/
+│   ├── main.py          # Точка входа Flask приложения
+│   ├── routes.py        # Определение API эндпоинтов
+│   └── storage.py       # Хранилище данных в памяти
+├── data/
+│   ├── client.json                      # Учетные данные клиента
+│   ├── get_token.json                   # Данные токена
+│   ├── get_metadata.json                # Metadata каналы
+│   ├── get_runtime_channels.json        # Runtime каналы
+│   └── load_data.py                     # Скрипт загрузки данных
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
+```
+
+## Зависимости
+
+- Flask==3.0.0
+- requests==2.31.0
+
+## Ограничения
+
+- Данные хранятся только в памяти и теряются при перезапуске
+- Не предназначен для production использования
+- Минимальная валидация входных данных
+
