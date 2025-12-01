@@ -166,18 +166,25 @@ python scripts/load_data.py http://your-server:9090
 ```
 esb1c-fake-api/
 ├── app/
-│   ├── main.py          # Точка входа Flask приложения
-│   ├── routes.py        # Определение API эндпоинтов
-│   └── storage.py       # Хранилище данных в памяти
+│   ├── __init__.py         # Инициализация Flask приложения
+│   ├── main.py             # Точка входа Flask приложения
+│   ├── routes.py           # Определение API эндпоинтов
+│   └── storage.py          # Хранилище данных в памяти
 ├── data/
-│   ├── client.json                      # Учетные данные клиента
-│   ├── get_token.json                   # Данные токена
-│   ├── get_metadata.json                # Metadata каналы
-│   ├── get_runtime_channels.json        # Runtime каналы
-│   └── load_data.py                     # Скрипт загрузки данных
+│   ├── about_data.md              # Описание структуры данных
+│   ├── client.json                # Учетные данные клиента
+│   ├── get_token.json             # Данные токена
+│   ├── get_metadata.json          # Metadata каналы
+│   └── get_runtime_channels.json  # Runtime каналы
+├── scripts/
+│   ├── load_data.py        # Скрипт загрузки данных в сервис
+│   └── test.py             # Тестовые скрипты
 ├── Dockerfile
+├── esb1c-fake.postman_collection.json  # Postman коллекция для тестирования
+├── LICENSE
+├── README.md
 ├── requirements.txt
-└── README.md
+└── setup.sh   # Скрипт для сборки и запуска Docker, загрузки данный по умолчанию
 ```
 
 ## Зависимости
