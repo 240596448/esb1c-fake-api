@@ -3,12 +3,12 @@
     {
       "process": "RabbitMQ",
       "channel": "send1",
-      "destination": "1С.fake.send1"
+      "destination": "fake.1C.send1"
     },
     {
       "process": "RabbitMQ",
       "channel": "rec1",
-      "destination": "1С.fake.rec1"
+      "destination": "fake.1C.rec1"
     }
   ],
   "port": 5672

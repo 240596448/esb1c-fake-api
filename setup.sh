@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Building Docker image..."
-docker build -t esb1c-fake-api .
+docker build -t esb1c-fake-api . --no-cache
 
 echo "Running Docker container..."
 docker run -d --name esb1c-fake-api -p 9090:5000 esb1c-fake-api
