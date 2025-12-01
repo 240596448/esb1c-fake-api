@@ -16,7 +16,6 @@ def load_token(base_url: str, application_name: str, client_id: str, client_secr
         f"{base_url}/setup/token",
         auth=(client_id, client_secret),
         json=token_data,
-        headers={"application_name": application_name},
     )
     response.raise_for_status()
 
@@ -57,6 +56,8 @@ def load_runtime_channels(base_url: str, application_name: str, token: str):
 
 if __name__ == "__main__":
     base_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:5000"
+    print(f"Загружаем данные в {base_url}")
+
     client_file = data_dir / "client.json"
     if not client_file.exists():
         print(f"Файл {client_file} не найден")

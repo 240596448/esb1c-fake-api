@@ -40,14 +40,13 @@ def setup_token():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
     
-    application_name = request.headers.get('application_name')
     data = request.get_json()
     
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400
     
     try:
-        storage.set_token(application_name, (client_id, client_secret), data)
+        storage.set_token((client_id, client_secret), data)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     
