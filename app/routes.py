@@ -4,6 +4,7 @@ from storage import storage
 import base64
 
 bp = Blueprint('api', __name__)
+application_name_header = "x-fake-application-name"
 
 def auth_basic(request):
     """Проверить Basic authentication"""
@@ -66,7 +67,10 @@ def setup_metadata_channels():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
 
-    application_name = request.headers.get("x-fake-application-name")
+    application_name = request.headers.get(application_name_header)
+    if not application_name:
+        return jsonify({"error": f"{application_name_header} header is required"}), 400
+
     data = request.get_json()
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400
@@ -91,7 +95,10 @@ def setup_runtime_channels():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
 
-    application_name = request.headers.get("x-fake-application-name")
+    application_name = request.headers.get(application_name_header)
+    if not application_name:
+        return jsonify({"error": f"{application_name_header} header is required"}), 400
+
     data = request.get_json()
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400
