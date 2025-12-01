@@ -40,13 +40,14 @@ def setup_token():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
     
+    application_name = request.headers.get('application_name')
     data = request.get_json()
     
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400
     
     try:
-        storage.set_token((client_id, client_secret), data)
+        storage.set_token(application_name, (client_id, client_secret), data)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     
@@ -66,12 +67,13 @@ def setup_metadata_channels():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
 
+    application_name = request.headers.get('application_name')
     data = request.get_json()
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400
     
     try:
-        storage.set_metadata_channels(token, data)
+        storage.set_metadata_channels(application_name, token, data)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
@@ -90,12 +92,13 @@ def setup_runtime_channels():
     except ValueError as e:
         return jsonify({"error": str(e)}), 403
 
+    application_name = request.headers.get('application_name')
     data = request.get_json()
     if not data:
         return jsonify({"error": "No JSON data provided"}), 400
     
     try:
-        storage.set_runtime_channels(token, data)
+        storage.set_runtime_channels(application_name, token, data)
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     
@@ -141,7 +144,7 @@ def get_metadata_channels(application_name: str):
         return jsonify({"error": str(e)}), 403
     
     try:
-        metadata_channels = storage.get_metadata_channels(token)
+        metadata_channels = storage.get_metadata_channels(application_name, token)
     except ValueError as e:
         return jsonify({"error": str(e)}), 401
     
@@ -160,7 +163,7 @@ def get_runtime_channels(application_name: str):
         return jsonify({"error": str(e)}), 403
   
     try:
-        runtime_channels = storage.get_runtime_channels(token)
+        runtime_channels = storage.get_runtime_channels(application_name, token)
     except ValueError as e:
         return jsonify({"error": str(e)}), 401
     
