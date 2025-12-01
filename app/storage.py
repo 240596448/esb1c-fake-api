@@ -46,7 +46,11 @@ class DataStorage:
         data = self._clients[client_id]
         if data.get("client_secret") != client_secret:
             raise ValueError(f"Invalid client secret for client {client_id}")
-        return data.get("id_token")
+        return {
+            "id_token": data.get("id_token"),
+            "token_type": data.get("token_type"),
+            "access_token": data.get("access_token")
+        }
     
     def get_metadata_channels(self, application_name: str, token: str) -> Optional[dict]:
         """Получить metadata каналы по токену"""

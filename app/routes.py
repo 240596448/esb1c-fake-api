@@ -120,16 +120,11 @@ def get_token():
     print(f"POST /auth/oidc/token: client_id: {client_id}")
 
     try:
-        token = storage.get_token((client_id, client_secret))
+        token_data = storage.get_token((client_id, client_secret))
     except ValueError as e:
         return jsonify({"error": str(e)}), 401
     
-    return jsonify({
-        "id_token": token,
-        "token_type" : "Bearer",
-        "access_token" : "Not implemented"
-        }), 200
-
+    return jsonify(token_data), 200
 
 @bp.route('/applications/<application_name>/sys/esb/metadata/channels', methods=['GET'])
 def get_metadata_channels(application_name: str):

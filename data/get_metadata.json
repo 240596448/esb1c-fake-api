@@ -3,14 +3,14 @@
         "process": "RabbitMQ",
         "processDescription": "Процесс RabbitMQ",
         "channel": "rec1",
-        "channelDescription": "Исходящий канал 1С",
+        "channelDescription": "Входящий канал 1С",
         "access": "READ_ONLY"
     },
     {
         "process": "RabbitMQ",
         "processDescription": "Процесс RabbitMQ",
         "channel": "send1",
-        "channelDescription": "Входящий канал 1С",
+        "channelDescription": "Исходящий канал 1С",
         "access": "WRITE_ONLY"
     }
 ]

@@ -1,0 +1,266 @@
+{
+	"info": {
+		"name": "esb1c-fake",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "root",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": []
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "fake",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id_token\" : \"fake_secret_token_1C\",\r\n  \"token_type\" : \"Bearer\",\r\n  \"access_token\" : \"Not implemented\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/setup/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"setup",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set metadata_channels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "fake_secret_token_1C",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "application_name",
+						"value": "fake",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"process\": \"RabbitMQ\",\r\n        \"processDescription\": \"Процесс RabbitMQ\",\r\n        \"channel\": \"rec1\",\r\n        \"channelDescription\": \"Исходящий канал 1С\",\r\n        \"access\": \"READ_ONLY\"\r\n    },\r\n    {\r\n        \"process\": \"RabbitMQ\",\r\n        \"processDescription\": \"Процесс RabbitMQ\",\r\n        \"channel\": \"send1\",\r\n        \"channelDescription\": \"Входящий канал 1С\",\r\n        \"access\": \"WRITE_ONLY\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/setup/metadata_channels",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"setup",
+						"metadata_channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set runtime_channels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "fake_secret_token_1C",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "application_name",
+						"value": "fake",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"items\": [\r\n    {\r\n      \"process\": \"RabbitMQ\",\r\n      \"channel\": \"send1\",\r\n      \"destination\": \"fake.1C.send1\"\r\n    },\r\n    {\r\n      \"process\": \"RabbitMQ\",\r\n      \"channel\": \"rec1\",\r\n      \"destination\": \"fake.1C.rec1\"\r\n    }\r\n  ],\r\n  \"port\": 5672\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/setup/runtime_channels",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"setup",
+						"runtime_channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "fake",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/auth/oidc/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"oidc",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get metadata_channels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "fake_secret_token_1C",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "application_name",
+						"value": "fake",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/applications/fake/sys/esb/metadata/channels",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"applications",
+						"fake",
+						"sys",
+						"esb",
+						"metadata",
+						"channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get runtime_channels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "fake_secret_token_1C",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/applications/fake/sys/esb/runtime/channels",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"applications",
+						"fake",
+						"sys",
+						"esb",
+						"runtime",
+						"channels"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:9090"
+		}
+	]
+}

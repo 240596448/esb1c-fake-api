@@ -43,6 +43,13 @@ docker run -d --name esb1c-fake-api -p 9090:5000 esb1c-fake-api
 #### Примечание:
 > Для сборки, старта и первичной загрузки данных - воспользуйтесь setup.sh
 
+### DockerHub
+
+Адрес на DockerHub: https://hub.docker.com/r/240596448/esb1c-fake-api
+```bash
+docker run -d --name esb1c-fake-api -p 9090:5000 240596448/esb1c-fake-api
+```
+после установки требует обучения
 
 ## Принцип работы
 
@@ -86,6 +93,9 @@ _Альтернатива:_ использовать анонимную авто
 Перед использованием сервиса (настройкой каналов в 1С) необходимо загрузить данные из /data (токены, каналы и т.д.).
 Это можно сделать с помощью скрипта `scripts/load_data.py`.
 
+### Postman template collection
+
+Коллекция загрузки(обучения) и проверки(чтения) результата [esb1c-fake.postman_collection.json](esb1c-fake.postman_collection.json)
 
 ### Подготовка данных
 
@@ -94,6 +104,8 @@ _Альтернатива:_ использовать анонимную авто
 - `get_token.json` - данные токена для загрузки
 - `get_metadata.json` - метаданные каналов
 - `get_runtime_channels.json` - runtime каналы
+
+> [Более подробно](data/about_data.md) о содержимом файлов
 
 ### Загрузка данных в локальный сервис
 
