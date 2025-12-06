@@ -1,6 +1,7 @@
 """Роуты для фейкового API"""
 from flask import Blueprint, request, jsonify
 from storage import storage
+from rabbitmq import create_queues
 import base64
 
 bp = Blueprint('api', __name__)
@@ -165,6 +166,14 @@ def get_runtime_channels(application_name: str):
         runtime_channels = storage.get_runtime_channels(application_name, token)
     except ValueError as e:
         return jsonify({"error": str(e)}), 401
+    
+    if runtime_channels:
+        try:
+            host = request.host.split(':')[0]
+            port = runtime_channels.get('port', 5672)
+            create_queues(runtime_channels, host, port, token)
+        except Exception as e:
+            print(f"Error creating queues from runtime channels: \n{e}")
     
     return jsonify(runtime_channels), 200
 
