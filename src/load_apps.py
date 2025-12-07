@@ -13,10 +13,11 @@ def load_app(path: str, url: str):
 
 if __name__ == "__main__":
     base_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:5000"
-    print(f"Загружаем данные в {base_url}")
+    print(f"Загрузка данных в сервис по адресу {base_url}")
 
-    data_dir = Path(__file__).parent.parent / "data"
-    app_files = data_dir.glob("app-*.json")
+    data_dir = Path(__file__).parent / "data"
+    app_files = list(data_dir.glob("app-*.json"))
+    print(f"Найдено {len(app_files)} файлов с данными приложений в директории {data_dir} по шаблону app-*.json")
 
     for app_file in app_files:
         print(f"Загружаем данные из файла {app_file}")

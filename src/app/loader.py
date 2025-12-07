@@ -16,8 +16,12 @@ class SingleConfig:
         self.application_config = self._load_data(file_path)
 
     def _load_data(self, file_path: Path) -> ApplicationConfig:
-        data = file_path.read_text()
+        data = file_path.read_text(encoding="utf-8")
         return ApplicationConfig.model_validate_json(data)
+
+    def client_info(self) -> ClientInfo:
+        """Получить информацию о клиенте"""
+        return ClientInfo(**self.application_config.model_dump())
 
     def get_token(self) -> Token:
         """Получить ответ на запрос токена"""
@@ -57,7 +61,7 @@ class MultiConfig:
         if not dir_path.exists():
             raise FileNotFoundError(f"Directory {dir_path} not found (data directory)")
         self.dir_path = dir_path
-        self.client_info = self._load_client_info()
+        self.client = self._load_client_info()
         self.token = self._load_token()
         self.metadata = self._load_metadata()
         self.runtime = self._load_runtime()
@@ -90,6 +94,9 @@ class MultiConfig:
         data = runtime_configs.read_text()
         return RuntimeChannels.model_validate_json(data)
 
+    def client_info(self) -> ClientInfo:
+        """Получить информацию о клиенте"""
+        return self.client
 
     def get_token(self) -> Token:
         """Получить ответ на запрос токена"""
@@ -107,7 +114,7 @@ class MultiConfig:
 class ApplicationLoader:
     def __init__(self, config: SingleConfig | MultiConfig, url: str):
         self.url = url
-        self.client_info: ClientInfo = config.client_info
+        self.client_info: ClientInfo = config.client_info()
         self.token: Token = config.get_token()
         self.metadata: MetadataChannels = config.get_channels()
         self.runtime: RuntimeChannels = config.get_runtime_channels()
