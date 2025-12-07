@@ -19,4 +19,4 @@ echo "Container started. Access the API at ${server_url}"
 timeout 30 bash -c "while ! curl -s ${server_url} > /dev/null 2>&1; do sleep 1; done" || echo "Timeout: API not available"
 
 echo "Loading data..."
-python scripts/load_data.py ${server_url}
+python scripts/load_default_data.py ${server_url}
