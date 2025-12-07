@@ -1,0 +1,27 @@
+{
+  "application_name": "app_1",
+  "client_id": "user_1",
+  "client_secret": "secret_password_1",
+  "id_token": "secret_token",
+  "port": 5672,
+  "processes": [
+    {
+      "process": "RabbitMQ",
+      "processDescription": "Процесс RabbitMQ",
+      "channels": [
+        {
+          "channel": "rec1",
+          "channelDescription": "Входящий канал 1С",
+          "access": "READ_ONLY",
+          "destination": "app_1.to_1c"
+        },
+        {
+          "channel": "send1",
+          "channelDescription": "Исходящий канал 1С",
+          "access": "WRITE_ONLY",
+          "destination": "app_1.from_1c"
+        }
+      ]
+    }
+  ]
+}

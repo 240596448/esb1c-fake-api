@@ -1,8 +1,8 @@
 """Роуты для фейкового API"""
-from flask import Blueprint, request, jsonify
-from storage import storage
-from rabbitmq import create_queues
 import base64
+from flask import Blueprint, request, jsonify
+from .storage import storage
+from .rabbitmq import create_queues
 
 bp = Blueprint('api', __name__)
 application_name_header = "x-fake-application-name"
