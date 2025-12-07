@@ -59,7 +59,7 @@ class MultiConfig:
     def __init__(self, dir_path: str):
         dir_path = Path(dir_path)
         if not dir_path.exists():
-            raise FileNotFoundError(f"Directory {dir_path} not found (data directory)")
+            raise FileNotFoundError(f"Directory {dir_path.absolute()} not found (data directory)")
         self.dir_path = dir_path
         self.client = self._load_client_info()
         self.token = self._load_token()
@@ -84,13 +84,13 @@ class MultiConfig:
         metadata_configs = self.dir_path / "get_metadata.json"
         if not metadata_configs.exists():
             raise FileNotFoundError(f"File {metadata_configs} not found (get_metadata.json)")
-        data = metadata_configs.read_text()
+        data = metadata_configs.read_text(encoding="utf-8")
         return MetadataChannels.model_validate_json(data)
 
     def _load_runtime(self) -> RuntimeChannels:
-        runtime_configs = self.dir_path / "get_runtime.json"
+        runtime_configs = self.dir_path / "get_runtime_channels.json"
         if not runtime_configs.exists():
-            raise FileNotFoundError(f"File {runtime_configs} not found (get_runtime.json)")
+            raise FileNotFoundError(f"File {runtime_configs} not found (get_runtime_channels.json)")
         data = runtime_configs.read_text()
         return RuntimeChannels.model_validate_json(data)
 

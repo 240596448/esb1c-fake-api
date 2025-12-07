@@ -1,6 +1,6 @@
 """Модели данных для ESB API"""
 from typing import List, Optional, Literal
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, RootModel
 
 # Модели для раздельных файлов конфигурации
 class MetadataChannel(BaseModel):
@@ -11,9 +11,9 @@ class MetadataChannel(BaseModel):
     channelDescription: Optional[str] = Field(default="")
     access: Literal["READ_ONLY", "WRITE_ONLY"]
 
-class MetadataChannels(BaseModel):
+class MetadataChannels(RootModel[List[MetadataChannel]]):
     """Список метаданных каналов"""
-    channels: List[MetadataChannel]
+    root: List[MetadataChannel]
 
 class RuntimeChannel(BaseModel):
     """Runtime канал"""
