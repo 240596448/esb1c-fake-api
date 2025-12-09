@@ -40,7 +40,7 @@ class SingleConfig:
                     channelDescription=channel.channelDescription,
                     access=channel.access)
                 channels.append(md_channel)
-        return MetadataChannels(channels=channels)
+        return MetadataChannels(root=channels)
 
     def get_runtime_channels(self) -> RuntimeChannels:
         """Получить ответ на запрос runtime каналов"""
