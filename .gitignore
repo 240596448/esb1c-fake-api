@@ -4,3 +4,5 @@
 __pycache__
 *.pyc
 temp/*
+src/storage/*
+!src/storage/.gitkeep

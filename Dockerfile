@@ -13,8 +13,11 @@ COPY requirements.txt .
 # Установка Python зависимостей
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копирование кода приложения (копируем содержимое app/ в рабочую директорию)
-COPY app/*.py ./
+# Копирование кода приложения
+COPY src/ ./
+
+# Создание директории для хранения данных
+RUN mkdir -p app/storage
 
 # Установка переменных окружения
 ENV PYTHONUNBUFFERED=1
