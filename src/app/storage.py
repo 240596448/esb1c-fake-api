@@ -65,7 +65,7 @@ class DataStorage:
     def get_metadata_channels(self, application_name: str, token: str) -> Optional[dict]:
         """Получить metadata каналы по токену"""
         key = f"{application_name}:{token}"
-        print(f"get_metadata: key = {key}, self._metadata = {self._metadata}")
+        print(f"get_metadata: key = {key}")
         if key not in self._metadata:
             return None
         return self._metadata[key]
@@ -73,7 +73,7 @@ class DataStorage:
     def get_runtime_channels(self, application_name: str, token: str) -> Optional[dict]:
         """Получить runtime каналы по токену"""
         key = f"{application_name}:{token}"
-        print(f"get_runtime: key = {key}, self._runtime = {self._runtime}")
+        print(f"get_runtime: key = {key}")
         if key not in self._runtime:
             return None
         return self._runtime[key]
