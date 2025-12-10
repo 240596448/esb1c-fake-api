@@ -12,7 +12,11 @@ echo "Building Docker image..."
 docker build -t ${image_name} .
 
 echo "Running Docker container..."
-docker run -d --name ${container_name} -p 9090:5000 ${image_name}
+docker run -d \
+    --name ${container_name} \
+    -p 9090:5000 \
+    -v ~/.fake/storage:/app/storage \
+    ${image_name}
 
 echo "Container started. Access the API at ${server_url}"
 
