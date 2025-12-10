@@ -13,6 +13,7 @@ class SingleConfig:
         file_path = Path(file_path)
         if not file_path.exists():
             raise FileNotFoundError(f"File {file_path} not found")
+        print(f"Прочитан файл приложения: {file_path.relative_to(file_path.parent.parent)}")
         self.application_config = self._load_data(file_path)
 
     def _load_data(self, file_path: Path) -> ApplicationConfig:
@@ -70,20 +71,23 @@ class MultiConfig:
         client_configs = self.dir_path / "client.json"
         if not client_configs.exists():
             raise FileNotFoundError(f"File {client_configs} not found (client.json)")
-        data = client_configs.read_text()
+        print(f"Прочитан файл клиента: {client_configs.relative_to(self.dir_path.parent)}")
+        data = client_configs.read_text(encoding="utf-8")
         return ClientInfo.model_validate_json(data)
 
     def _load_token(self) -> Token:
         token_configs = self.dir_path / "get_token.json"
         if not token_configs.exists():
             raise FileNotFoundError(f"File {token_configs} not found (get_token.json)")
-        data = token_configs.read_text()
+        print(f"Прочитан файл токена: {token_configs.relative_to(self.dir_path.parent)}")
+        data = token_configs.read_text(encoding="utf-8")
         return Token.model_validate_json(data)
 
     def _load_metadata(self) -> MetadataChannels:
         metadata_configs = self.dir_path / "get_metadata.json"
         if not metadata_configs.exists():
             raise FileNotFoundError(f"File {metadata_configs} not found (get_metadata.json)")
+        print(f"Прочитан файл metadata: {metadata_configs.relative_to(self.dir_path.parent)}")
         data = metadata_configs.read_text(encoding="utf-8")
         return MetadataChannels.model_validate_json(data)
 
@@ -91,7 +95,8 @@ class MultiConfig:
         runtime_configs = self.dir_path / "get_runtime_channels.json"
         if not runtime_configs.exists():
             raise FileNotFoundError(f"File {runtime_configs} not found (get_runtime_channels.json)")
-        data = runtime_configs.read_text()
+        print(f"Прочитан файл runtime: {runtime_configs.relative_to(self.dir_path.parent)}")
+        data = runtime_configs.read_text(encoding="utf-8")
         return RuntimeChannels.model_validate_json(data)
 
     def client_info(self) -> ClientInfo:

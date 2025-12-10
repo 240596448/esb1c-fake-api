@@ -2,6 +2,8 @@
 
 import sys
 from pathlib import Path
+
+from requests.exceptions import ConnectionError as RequestsConnectionError
 from app.loader import SingleConfig, ApplicationLoader
 
 def load_app(path: str, url: str):
@@ -12,6 +14,23 @@ def load_app(path: str, url: str):
     loader.load_runtime_channels()
 
 if __name__ == "__main__":
+    description = """
+    Загрузка данных в сервис по адресу <url>
+
+    Использование:
+    python load_apps.py [<url>] [<data_dir> or <app_file>]
+    <url> - адрес сервиса, по умолчанию http://localhost:5000
+    <data_dir> - директория с данными приложений (mask `app-*.json`), по умолчанию ./data
+    <app_file> - файл с данными приложения, например, ./path/to/app-1.json
+
+    Примеры:
+    python load_apps.py
+    python load_apps.py http://localhost:5000
+    python load_apps.py http://localhost:5000 ./data
+    """
+    if len(sys.argv) == 1:
+        print(description)
+
     base_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:5000"
     print(f"Загрузка данных в сервис по адресу {base_url}")
 
@@ -20,9 +39,11 @@ if __name__ == "__main__":
     print(f"Найдено {len(app_files)} файлов с данными приложений в директории {data_dir} по шаблону app-*.json")
 
     for app_file in app_files:
-        print(f"Загружаем данные из файла {app_file}")
         try:
             load_app(str(app_file), base_url)
+        except RequestsConnectionError as e:
+            print(f"Ошибка соединения с сервисом {base_url}:\n{e}")
+            break
         except Exception as e:
-            print(f"Ошибка загрузки данных из файла {app_file}: {e}")
+            print(f"Ошибка загрузки данных из файла {app_file}:\n{e}")
             continue
