@@ -12,11 +12,12 @@ echo "Building Docker image..."
 docker build -t ${image_name} .
 
 echo "Running Docker container..."
-docker run -d --name esb1c-fake-api -p 9090:5000 ${image_name}
+docker run -d --name ${container_name} -p 9090:5000 ${image_name}
 
 echo "Container started. Access the API at ${server_url}"
 
 timeout 30 bash -c "while ! curl -s ${server_url} > /dev/null 2>&1; do sleep 1; done" || echo "Timeout: API not available"
 
 echo "Loading data..."
-python scripts/load_default_data.py ${server_url}
+# python src/load_default_data.py ${server_url}
+python src/load_apps.py ${server_url} ./data

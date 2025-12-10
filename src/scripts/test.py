@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 import json
-from esb1c import Application
+from esb1c import Application # pip install esb1c-app
 
 base_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:5000"
 client_file = Path(__file__).parent / "client.json"

@@ -35,9 +35,12 @@ docker build -t esb1c-fake-api .
 
 3. Запустите контейнер
 ```bash
-docker run -d --name esb1c-fake-api -p 9090:5000 esb1c-fake-api
+docker run -d 
+    --name esb1c-fake-api 
+    -p 9090:5000 
+    -v ~/.fake/storage:/app/storage
+    esb1c-fake-api
 ```
-
 Сервис будет доступен по адресу `http://localhost:9090`
 
 #### Примечание:
@@ -47,7 +50,11 @@ docker run -d --name esb1c-fake-api -p 9090:5000 esb1c-fake-api
 
 Адрес на DockerHub: https://hub.docker.com/r/240596448/esb1c-fake-api
 ```bash
-docker run -d --name esb1c-fake-api -p 9090:5000 240596448/esb1c-fake-api
+docker run -d 
+    --name esb1c-fake-api 
+    -p 9090:5000 
+    -v ~/.fake/storage:/app/storage
+    240596448/esb1c-fake-api
 ```
 после установки требует обучения
 
@@ -165,26 +172,34 @@ python scripts/load_data.py http://your-server:9090
 
 ```
 esb1c-fake-api/
-├── app/
-│   ├── __init__.py         # Инициализация Flask приложения
-│   ├── main.py             # Точка входа Flask приложения
-│   ├── routes.py           # Определение API эндпоинтов
-│   └── storage.py          # Хранилище данных в памяти
-├── data/
-│   ├── about_data.md              # Описание структуры данных
-│   ├── client.json                # Учетные данные клиента
-│   ├── get_token.json             # Данные токена
-│   ├── get_metadata.json          # Metadata каналы
-│   └── get_runtime_channels.json  # Runtime каналы
-├── scripts/
-│   ├── load_data.py        # Скрипт загрузки данных в сервис
-│   └── test.py             # Тестовые скрипты
+├── src/
+│   ├── app/
+│   │   ├── __init__.py         # Инициализация Flask приложения
+│   │   ├── loader.py           # Загрузка данных
+│   │   ├── models.py           # Модели данных
+│   │   ├── rabbitmq.py         # Работа с RabbitMQ
+│   │   ├── routes.py           # Определение API эндпоинтов
+│   │   └── storage.py          # Хранилище данных в памяти
+│   ├── data/
+│   │   ├── about_data.md                    # Описание структуры данных
+│   │   ├── app-1 (single data).json         # Пример данных приложения
+│   │   └── example-esb-answer/
+│   │       ├── client.json                  # Учетные данные клиента
+│   │       ├── get_token.json               # Данные токена (ответ запроса авторизации)
+│   │       ├── get_metadata.json            # Metadata каналы (ответ запроса загрузки каналов)
+│   │       └── get_runtime_channels.json    # Runtime каналы (ответ запроса подключения каналов)
+│   ├── scripts/
+│   │   └── test.py             # Тестовые скрипты
+│   ├── storage/                # Постоянное хранилище загруженных данных сервиса (токены, каналы), монтируется в Docker
+│   ├── load_apps.py            # Скрипт загрузки приложений
+│   ├── load_default_data.py    # Скрипт загрузки данных по умолчанию
+│   └── main.py                 # Точка входа приложения
 ├── Dockerfile
 ├── esb1c-fake.postman_collection.json  # Postman коллекция для тестирования
 ├── LICENSE
 ├── README.md
 ├── requirements.txt
-└── setup.sh   # Скрипт для сборки и запуска Docker, загрузки данный по умолчанию
+└── setup.sh                    # Скрипт для сборки и запуска Docker, загрузки данных по умолчанию
 ```
 
 ## Зависимости
@@ -198,9 +213,4 @@ esb1c-fake-api/
 - Токены клиентов: `client_{client_id}.json`
 - Metadata каналы: `metadata_{application_name}_{token}.json`
 - Runtime каналы: `runtime_{application_name}_{token}.json`
-
-## Ограничения
-
-- Не предназначен для production использования
-- Минимальная валидация входных данных
 
